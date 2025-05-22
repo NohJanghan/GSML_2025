@@ -9,12 +9,13 @@ def main():
     comm = MPI.COMM_WORLD
     rank = comm.Get_rank()
     size = comm.Get_size()
+    print(f"rank: {rank}, size: {size}")
 
     # 파라미터 설정 (radial_charge.py와 동일하게 유지)
     z_offset = 0
     n_bin = 100
     large_radius = 10
-    n_total_sample_point = 10**4  # 전체 샘플 포인트 수
+    n_total_sample_point = 10**8  # 전체 샘플 포인트 수
     sample_per_point = 10**3
 
     # 작업 분배: 각 프로세스가 전체 샘플 포인트 중 일부를 처리

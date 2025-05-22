@@ -140,7 +140,7 @@ class Bin:
         return bin_obj
 
 def main():
-    bin = Bin.load("radial_charge.npz")
+    bin = Bin.load("radial_charge_mpi.npz")
     # print bin info
     print(f"bin.bin_nums: {bin.bin_nums}")
     print(f"bin.r: {bin.r}")
