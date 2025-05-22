@@ -40,8 +40,6 @@ def rotate_to_z(point: np.ndarray):
     z = np.linalg.norm(point)
     return z if sign > 0 else -z
 
-import numpy as np
-
 def rotate_like(x: np.ndarray,
                 x_prime: np.ndarray,
                 v: np.ndarray,
