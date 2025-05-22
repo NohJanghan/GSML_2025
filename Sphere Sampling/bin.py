@@ -14,6 +14,18 @@ class Bin:
         self.bin_nums = bin_nums
         self.bins = np.zeros(shape=(bin_nums, bin_nums))
 
+    def add_bins(self, other_bins_array):
+        """
+        Add counts from another bins array to this Bin's bins.
+
+        Parameters:
+            other_bins_array: np.ndarray, the bins array from another Bin object.
+                              Must have the same shape as self.bins.
+        """
+        if self.bins.shape != other_bins_array.shape:
+            raise ValueError("Bin shapes do not match for aggregation.")
+        self.bins += other_bins_array
+
     def count(self, points):
         """
         Count points and update bins.
