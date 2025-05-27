@@ -113,14 +113,14 @@ class Bin:
 
         # Set labels and title
         plt.xlabel('Azimuthal Angle (φ)')
-        plt.ylabel('Polar Angle (θ)')
+        plt.ylabel('Z Coordinate (normalized)')
         plt.title(title)
 
         # Set custom ticks for better interpretation
         plt.xticks(np.linspace(0, self.bin_nums-1, 5),
                 [f'{x:.1f}π' for x in np.linspace(0, 2, 5)])
         plt.yticks(np.linspace(0, self.bin_nums-1, 5),
-                [f'{x:.1f}π' for x in np.linspace(0, 1, 5)])
+                [f'{x:.1f}' for x in np.linspace(-1, 1, 5)])
 
         if show_deviation and total_points > 0:
             std_dev = np.std(self.bins)
