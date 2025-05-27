@@ -33,9 +33,29 @@ class Bin:
         Parameters:
             points: np.ndarray, shape (3,) for single point or (n, 3) for multiple points
         """
+        # Use count_with_weight with weight of 1 for all points
+        self.count_with_weight(points, 1.0)
+
+    def count_with_weight(self, points, weights):
+        """
+        Count points with weights and update bins.
+
+        Parameters:
+            points: np.ndarray, shape (3,) for single point or (n, 3) for multiple points
+            weights: np.ndarray or float, weights for each point. If float, same weight for all points.
+                     If array, must have same length as number of points.
+        """
         # Reshape to (n, 3) if single point
         if points.ndim == 1:
             points = points.reshape(1, 3)
+
+        # Handle weights
+        if np.isscalar(weights):
+            weights = np.full(points.shape[0], weights)
+        else:
+            weights = np.asarray(weights)
+            if weights.shape[0] != points.shape[0]:
+                raise ValueError("Number of weights must match number of points")
 
         # Convert Cartesian to spherical coordinates
         x, y, z = points.T
@@ -52,8 +72,8 @@ class Bin:
         z_idx = np.minimum(np.floor(z_norm * self.bin_nums), self.bin_nums - 1)
         phi_idx = np.minimum(np.floor(phi * self.bin_nums), self.bin_nums - 1)
 
-        # Increment bin counts using np.add.at
-        np.add.at(self.bins, (z_idx.astype(int), phi_idx.astype(int)), 1)
+        # Increment bin counts with weights using np.add.at
+        np.add.at(self.bins, (z_idx.astype(int), phi_idx.astype(int)), weights)
 
     def visualize(self, mode='normalized', show_deviation=True):
         """

@@ -201,9 +201,9 @@ def main():
         # 점을 균일하게 샘플링하고 확률 밀도를 곱하여 랜덤 워커의 first passage 분포를 샘플링
         sample_points = sample_points_on_sphere(1, n_samples)
         densities = prob_density(sample_points)
-        fp_densities = sample_points * densities[:, np.newaxis]  # Reshape densities to (n, 1) for broadcasting
         # 샘플링된 first passage 분포를 빈에 추가
-        bin.count(fp_densities)
+        assert (densities >= 0).all() and (densities <= 1).all()
+        bin.count_with_weight(sample_points, densities)
         print(f"{i}th iteration is done")
     bin.visualize(mode="deviation", show_deviation=True)
     bin.save("radial_charge.npz")
