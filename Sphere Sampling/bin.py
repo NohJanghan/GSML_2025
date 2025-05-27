@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import seaborn as sns
 
 class Bin:
     def __init__(self, r=1.0, bin_nums=100, center=np.array([0, 0, 0])):
@@ -108,19 +109,24 @@ class Bin:
             label = 'Count'
 
         # Create a heatmap
-        im = plt.imshow(data, cmap=cmap, aspect='auto', origin='lower')
-        plt.colorbar(im, label=label)
+        ax = sns.heatmap(
+            data,
+            cmap=cmap,
+            cbar_kws={'label': label},
+            xticklabels=False,
+            yticklabels=False
+        )
 
         # Set labels and title
-        plt.xlabel('Azimuthal Angle (φ)')
-        plt.ylabel('Z Coordinate (normalized)')
-        plt.title(title)
+        ax.set_xlabel('Azimuthal Angle (φ)')
+        ax.set_ylabel('Z Coordinate (normalized)')
+        ax.set_title(title)
 
         # Set custom ticks for better interpretation
-        plt.xticks(np.linspace(0, self.bin_nums-1, 5),
-                [f'{x:.1f}π' for x in np.linspace(0, 2, 5)])
-        plt.yticks(np.linspace(0, self.bin_nums-1, 5),
-                [f'{x:.1f}' for x in np.linspace(-1, 1, 5)])
+        ax.set_xticks(np.linspace(0, self.bin_nums - 1, 5))
+        ax.set_xticklabels([f'{x:.1f}π' for x in np.linspace(0, 2, 5)])
+        ax.set_yticks(np.linspace(0, self.bin_nums - 1, 5))
+        ax.set_yticklabels([f'{x:.1f}' for x in np.linspace(-1, 1, 5)])
 
         if show_deviation and total_points > 0:
             std_dev = np.std(self.bins)
